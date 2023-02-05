@@ -74,7 +74,7 @@ extension OpenAISwift {
     /// - Parameters:
     ///   - prompt: The Instruction For Example: "Fix the spelling mistake"
     ///   - completionHandler: Returns an OpenAI Data Model
-    public func sendImagesGeneration(prompt: String = "", completionHandler: @escaping (Result<ImageResponse, OpenAIError>) -> Void) {
+    public func sendImagesGeneration(prompt: String, completionHandler: @escaping (Result<ImageResponse, OpenAIError>) -> Void) {
         let endpoint = Endpoint.imagesGenerations
         let body = ImageGenerationInstruction(prompt: prompt)
         let request = prepareRequest(endpoint, body: body)

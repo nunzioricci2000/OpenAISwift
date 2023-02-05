@@ -70,6 +70,30 @@ extension OpenAISwift {
         }
     }
     
+    /// Send a Image Generation request to the OpenAI API
+    /// - Parameters:
+    ///   - prompt: The Instruction For Example: "Fix the spelling mistake"
+    ///   - completionHandler: Returns an OpenAI Data Model
+    public func sendImagesGeneration(prompt: String = "", completionHandler: @escaping (Result<ImageResponse, OpenAIError>) -> Void) {
+        let endpoint = Endpoint.imagesGenerations
+        let body = ImageGenerationInstruction(prompt: prompt)
+        let request = prepareRequest(endpoint, body: body)
+        
+        makeRequest(request: request) { result in
+            switch result {
+            case .success(let success):
+                do {
+                    let res = try JSONDecoder().decode(ImageResponse.self, from: success)
+                    completionHandler(.success(res))
+                } catch {
+                    completionHandler(.failure(.decodingError(error: error)))
+                }
+            case .failure(let failure):
+                completionHandler(.failure(.genericError(error: failure)))
+            }
+        }
+    }
+    
     private func makeRequest(request: URLRequest, completionHandler: @escaping (Result<Data, Error>) -> Void) {
         let session = URLSession.shared
         let task = session.dataTask(with: request) { (data, response, error) in

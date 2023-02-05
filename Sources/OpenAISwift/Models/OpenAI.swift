@@ -13,3 +13,11 @@ public struct OpenAI: Codable {
 public struct Choice: Codable {
     public let text: String
 }
+
+public struct ImageResponse: Codable {
+    public let data: [ImageChoice]
+}
+
+public struct ImageChoice: Codable {
+    public let url: String
+}

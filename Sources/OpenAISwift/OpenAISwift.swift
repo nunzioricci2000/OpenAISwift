@@ -160,4 +160,18 @@ extension OpenAISwift {
             }
         }
     }
+    
+    /// Send a Image Generation request to the OpenAI API
+    /// - Parameters:
+    ///   - prompt: The Instruction For Example: "Fix the spelling mistake"
+    @available(swift 5.5)
+    @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
+    public func sendImagesGeneration(prompt: String) async throws -> ImageResponse {
+        return try await withCheckedThrowingContinuation { continuation in
+            sendImagesGeneration(prompt: prompt) { result in
+                continuation.resume(with: result)
+            }
+        }
+    }
+    
 }
